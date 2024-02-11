@@ -24,17 +24,19 @@ def validorder(order: Order):
     for item in order.items:
         if item.type == 'payment':
             net_payment += item.amount
-            print("payment",item.description,type(item.amount),net_payment)
         elif item.type == 'product':
             net_product -= item.amount * item.quantity
-            print("product", item.description,type(item.amount),net_product)
         else:
             return "Invalid item type: %s" % item.type
 
-    net = round(net_product,2) + round(net_payment,2)
-    if net != 0:
-        print("Order ID: %s - Payment imbalance: $%0.2f" % (order.id, net))
-        return "Order ID: %s - Payment imbalance: $%0.2f" % (order.id, net)
-    else:
-        print("Order ID: %s - Full payment received!" % order.id)
-        return "Order ID: %s - Full payment received!" % order.id
+    net = round(net_payment,2) + round(net_product,2) 
+    if net_product <-99999 or net_payment > 99999:
+            print(f"Order ID: {order.id} - Total amount payable for an order exceeded")
+            return "Total amount payable for an order exceeded"
+    else:    
+        if net != 0:
+            print("Order ID: %s - Payment imbalance: $%0.2f" % (order.id, net))
+            return "Order ID: %s - Payment imbalance: $%0.2f" % (order.id, net)
+        else:
+            print("Order ID: %s - Full payment received!" % order.id)
+            return "Order ID: %s - Full payment received!" % order.id
